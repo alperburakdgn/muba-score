@@ -1,12 +1,7 @@
-Problem Tanımı
+Problem Definition
 
-Bu projede, futbol ligleri, takımlar, oyuncular, maçlar ve istatistikleri etkin bir şekilde yönetmek için bir Futbol Ligi Yönetim Sistemi geliştirmeyi amaçlıyoruz. 
-Sistem, futbol ligi düzenleyicileri, takımlar ve analistler için oyuncu transferleri, maç planlaması ve gerçek zamanlı maç istatistikleri gibi kritik görevleri yönetmek adına kapsamlı bir platform sağlayacaktır.
+In this project, we aim to develop a Football League Management System to efficiently manage football leagues, teams, players, matches, and statistics. The system will serve as a comprehensive platform for football league organizers, teams, and analysts to handle critical tasks such as player transfers, match scheduling, and real-time match statistics.
 
-Sistem, birden fazla ligi, takımları, oyuncu bilgilerini, maç sonuçlarını yönetme ve detaylı oyuncu ve takım istatistikleri oluşturma gibi özelliklere sahip olacaktır. 
-Ayrıca, mekan yönetimi, oyuncu transferlerinin takibi ve goller, fauller, oyuncu değişiklikleri gibi maç olaylarının kaydedilmesi gibi işlevleri de sunacaktır.
+The system will include features to manage multiple leagues, teams, player details, match results, and generate detailed player and team statistics. Additionally, it will provide functionalities for managing venues, tracking player transfers, and recording match events such as goals, fouls, and substitutions. Performance optimization will be achieved through indexing players, teams, and matches to speed up data retrieval. The system will offer a user-friendly interface, allowing league organizers and administrators to easily manage the data.
 
-Performans optimizasyonu, oyuncular, takımlar ve maçlar için indeksleme yapılarak veri erişiminin hızlandırılmasıyla sağlanacaktır. 
-Sistem, kullanıcı dostu bir arayüz sunarak lig düzenleyicileri ve yöneticilerinin verileri kolayca yönetmesini sağlayacaktır.
-
-Bu proje, futbol ligi operasyonlarının yönetim verimliliğini artıracak ve performans takibi için veri analizi yeteneklerini geliştirecektir.
+This project will increase the efficiency of managing football league operations and enhance data analysis capabilities for performance tracking.
