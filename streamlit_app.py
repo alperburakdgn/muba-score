@@ -7,73 +7,6 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# CSS Styles
-enhanced_css = """
-<style>
-/* Genel arkaplan */
-.stApp {
-    background: linear-gradient(to bottom, #2a5298, #1e3c72);
-    color: #ffffff;
-    font-family: 'Poppins', sans-serif;
-}
-
-/* Başlıklar */
-h1, h2 {
-    color: #ffffff;
-    text-align: center;
-    font-weight: 600;
-    margin-bottom: 20px;
-}
-h1 {
-    font-size: 3rem;
-}
-h2 {
-    font-size: 2rem;
-}
-
-/* Butonlar */
-.stButton>button {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 12px;
-    padding: 12px 24px;
-    font-size: 16px;
-    font-weight: bold;
-    box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s ease;
-}
-.stButton>button:hover {
-    background-color: #388e3c;
-    transform: scale(1.1);
-}
-
-/* Sidebar */
-section[data-testid="stSidebar"] {
-    background: #212121;
-    color: white;
-    border-right: 2px solid #4caf50;
-    padding: 10px;
-}
-section[data-testid="stSidebar"] h2 {
-    color: #4caf50;
-    font-size: 1.5rem;
-}
-
-/* Metin kutuları */
-.stTextInput>div>div>input {
-    background-color: #ffffff;
-    border: 2px solid #4caf50;
-    border-radius: 8px;
-    padding: 10px;
-    font-size: 14px;
-    color: #000000;
-}
-</style>
-"""
-
-# Inject the CSS styles into the Streamlit app
-st.markdown(enhanced_css, unsafe_allow_html=True)
 
 # Original Streamlit app code below (without changes to logic)
 import streamlit as st
@@ -107,21 +40,30 @@ st.markdown("""
         font-weight: 400;
     }
 
-    /* Butonlar */
+    /* Buttons Styling */
     .stButton>button {
-        background-color: #4ca1af;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        padding: 10px 20px;
-        font-size: 16px;
-        font-weight: bold;
-        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-        transition: all 0.3s ease;
+        width: 200px; /* Eşit genişlik */
+        min-height: 50px; /* Eşit yükseklik */
+        background-color: #4ca1af; /* Renk düzenlemesi */
+        color: white; /* Yazı rengi */
+        border: none; /* Kenar çizgisi kaldırıldı */
+        border-radius: 8px; /* Yuvarlatılmış köşeler */
+        padding: 10px 20px; /* İç boşluk */
+        font-size: 16px; /* Yazı boyutu */
+        font-weight: bold; /* Yazı kalınlığı */
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2); /* Hafif gölge */
+        transition: all 0.3s ease; /* Geçiş efekti */
     }
     .stButton>button:hover {
-        background-color: #2c3e50;
-        transform: scale(1.05);
+        background-color: #2c3e50; /* Hover rengi */
+        transform: scale(1.05); /* Hafif büyütme */
+    }
+
+    /* Adjust column layout for uniform button alignment */
+    .stColumns {
+        display: flex; /* Esnek düzen */
+        justify-content: center; /* Ortalanmış görünüm */
+        gap: 10px; /* Butonlar arası boşluk */
     }
 
     /* Sidebar */
@@ -187,10 +129,11 @@ sidebar_navigation()
 
 # Ana Sayfa
 if st.session_state.page == "home":
-    col1, col2, col3 = st.columns([1, 2, 1])  # Orta sütun için düzenleme
+    # Sayfa başlıklarını ortalama
+    col1, col2, col3 = st.columns([1, 2, 1])  # Orta sütun
     with col2:
-        st.markdown('<h1>🏆 Lig ve Takım Yönetimi</h1>', unsafe_allow_html=True)
-        st.markdown('<h2>Ligleri, takımları ve oyuncuları keşfedin!</h2>', unsafe_allow_html=True)
+        st.markdown('<h1 style="text-align: center;">🏆 Lig ve Takım Yönetimi</h1>', unsafe_allow_html=True)
+        st.markdown('<h2 style="text-align: center;">Ligleri, takımları ve oyuncuları keşfedin!</h2>', unsafe_allow_html=True)
         st.markdown("""
         <div style="margin-top: 30px; text-align: center;">
             <p style="font-size: 1.2rem;">
@@ -202,9 +145,14 @@ if st.session_state.page == "home":
         </div>
         """, unsafe_allow_html=True)
 
-        # Modern buton
+    # Butonu ortalamak için tek başına bir sütun
+    col1, col2, col3,col4,col5 = st.columns([1, 2, 3, 4,5])  # Orta sütun
+    with col4:
         if st.button("Lig Seç", key="lig_sec"):
             st.session_state.page = "league_selection"
+
+
+
 
 # Lig Seçim Sayfası
 if st.session_state.page == "league_selection":
@@ -287,6 +235,16 @@ if st.session_state.page == "team_details":
     with cols[1]:
         if st.button("Fikstür"):
             st.session_state.page = "fixtures"
+            
+    #gelen giden transfer
+    cols = st.columns(2)
+    with cols[0]:
+        if st.button("Gelen Transfer"):
+            st.session_state.page = "gelen_transfer"
+    with cols[1]:
+        if st.button("Giden Transfer"):
+            st.session_state.page = "giden_transfer"
+
 
 
 if st.session_state.page == "fixtures":
@@ -316,23 +274,29 @@ if st.session_state.page == "fixtures":
 
             # Görünürlük durumuna göre olayları göster veya gizle
             if st.session_state[details_key]:
-                events = get_match_events(fixture[0])
-                if events:
-                    st.markdown(f"**Maç Olayları (ID: {fixture[0]})**")
-                    for event in events:
-                        st.write(f"- Dakika {event[6]}: {event[4]} - {event[5]} (Oyuncu: {event[2]}, Asist: {event[3]})")
-                else:
-                    st.warning("Bu maça ait olay bilgisi bulunamadı.")
-            st.write("---")
-    else:
-        st.warning("Bu takıma ait maç bilgisi bulunamadı.")
+             events = get_match_events(fixture[0])  # Maça ait olayları al
+             if events:
+                 st.markdown(f"**Maç Olayları (ID: {fixture[0]})**")
+                 for event in events:
+        # Sarı kart, kırmızı kart gibi olaylarda sadece oyuncuyu göster
+                     if event[4] in ["Card"]:  # Kart olayları
+                         st.write(f"- Dakika {event[6]}: {event[5]} (Oyuncu: {event[2]})")
+                     elif event[4] in ["Goal", "Assist", "Substitution"]:  # Gol, asist veya değişiklik olayları
+                         st.write(f"- Dakika {event[6]}: {event[5]} (Oyuncu: {event[2]}, Asist: {event[3] if event[3] else 'Yok'})")
+                     else:  # Diğer olaylar (Eğer varsa)
+                          st.write(f"- Dakika {event[6]}: {event[5]} (Oyuncu: {event[2]})")
+             else:
+                         st.warning("Bu maça ait olay bilgisi bulunamadı.")
+
+
+
 
 
 
 if st.session_state.page == "players":
     st.markdown(f'<h1>{st.session_state.selected_team_name} Oyuncu Kadrosu</h1>', unsafe_allow_html=True)
     players = get_players_by_team(st.session_state.selected_team)
-
+    
     if players:
         for player in players:
             # Oyuncu bilgilerini göster
@@ -341,18 +305,10 @@ if st.session_state.page == "players":
             st.write(f"Yaş: {player[4]}")  # Yaş
             st.write(f"Uyruğu: {player[5]}")  # Uyruğu
 
-            # Her oyuncu için istatistik görünürlük durumunu session_state içinde tut
-            visibility_key = f"stats_visible_{player[0]}"
-            if visibility_key not in st.session_state:
-                st.session_state[visibility_key] = False
-
             # İstatistikler butonu
-            if st.button(f"İstatistikler ({player[1]} {player[2]})", key=f"toggle_stats_{player[0]}"):
-                st.session_state[visibility_key] = not st.session_state[visibility_key]  # Durumu tersine çevir
-
-            # Eğer istatistikler görünür durumdaysa, istatistikleri göster
-            if st.session_state[visibility_key]:
-                statistics = get_player_statistics(player[0])  # player_id ile istatistikleri al
+            if st.button(f"İstatistikler ({player[1]} {player[2]})", key=f"stats_{player[0]}"):
+                # Oyuncu istatistiklerini çek
+                statistics = get_player_statistics(player[0])  # player_id'yi kullanarak istatistikleri çek
                 if statistics:
                     st.write(f"**{player[1]} {player[2]} İstatistikleri:**")
                     for stat in statistics:
@@ -369,55 +325,62 @@ if st.session_state.page == "players":
 
 if st.session_state.page == "player_search":
     st.markdown('<h1>Oyuncu Arama</h1>', unsafe_allow_html=True)
-    first_name = st.text_input("Oyuncunun Adı:")
-    last_name = st.text_input("Oyuncunun Soyadı:")
-    
-    # İstatistik modunu kontrol et (başlangıçta False olarak ayarlanır)
-    if "show_statistics" not in st.session_state:
-        st.session_state.show_statistics = False
-        st.session_state.selected_player_id = None
-        st.session_state.selected_player_name = None
 
-    # Eğer istatistik modu aktifse, oyuncu istatistiklerini göster
-    if st.session_state.show_statistics and st.session_state.selected_player_id:
-        st.write(f"**{st.session_state.selected_player_name} İstatistikleri:**")
-        statistics = get_player_statistics(st.session_state.selected_player_id)
-        if statistics:
-            for stat in statistics:
-                st.write(f"Sezon: {stat[5]}")
-                st.write(f"Goller: {stat[0]}, Asistler: {stat[1]}, Sarı Kartlar: {stat[2]}, Kırmızı Kartlar: {stat[3]}")
-                st.write(f"Oynanan Dakika: {stat[4]}")
-                st.write("---")
-        else:
-            st.warning(f"{st.session_state.selected_player_name} için istatistik bulunamadı.")
-        # Geri dönme butonu
-        if st.button("Geri"):
-            st.session_state.show_statistics = False  # İstatistik modunu kapat
-        st.stop()  # Buradan sonra kod çalışmaz
+    # Girdileri ve sonuçları saklamak için session_state başlatma
+    if "search_first_name" not in st.session_state:
+        st.session_state.search_first_name = ""
+    if "search_last_name" not in st.session_state:
+        st.session_state.search_last_name = ""
+    if "search_results" not in st.session_state:
+        st.session_state.search_results = []
+    if "expanded_stats" not in st.session_state:
+        st.session_state.expanded_stats = {}  # Her oyuncu için istatistik durumu
 
-    # Oyuncu arama sonuçları
+    # Oyuncu adı ve soyadı giriş kutuları
+    first_name = st.text_input("Oyuncunun Adı:", value=st.session_state.search_first_name)
+    last_name = st.text_input("Oyuncunun Soyadı:", value=st.session_state.search_last_name)
+
+    # Arama butonuna basıldığında girişleri ve sonuçları kaydet
     if st.button("Ara"):
-        results = search_players_by_name(first_name, last_name)
-        if results:
-            st.write(f"**{len(results)} sonuç bulundu:**")
-            for player in results:
-                # Oyuncu bilgilerini göster
-                st.subheader(f"{player[1]} {player[2]}")  # Ad ve Soyad
-                st.write(f"Pozisyon: {player[3]}")  # Pozisyon
-                st.write(f"Yaş: {player[4]}")  # Yaş
-                st.write(f"Uyruğu: {player[5]}")  # Uyruğu
-                st.write(f"Takım: {player[6] if player[6] else 'Takım bilgisi yok'}")  # Takım adı
-                
-                # İstatistikler butonu
-                if st.button(f"İstatistikler ({player[1]} {player[2]})", key=f"stats_{player[0]}"):
-                    # Oyuncunun bilgilerini session_state'e kaydet
-                    st.session_state.selected_player_id = player[0]
-                    st.session_state.selected_player_name = f"{player[1]} {player[2]}"
-                    st.session_state.show_statistics = True  # İstatistik modunu aktif et
-                    st.experimental_rerun()  # Sayfayı yeniden yükle
-                st.write("---")
-        else:
-            st.warning("Hiçbir sonuç bulunamadı.")
+        st.session_state.search_first_name = first_name
+        st.session_state.search_last_name = last_name
+        st.session_state.search_results = search_players_by_name(first_name, last_name)
+        st.session_state.expanded_stats = {}  # Yeni bir aramada tüm istatistik durumlarını sıfırla
+
+    # Arama sonuçlarını göster
+    if st.session_state.search_results:
+        st.write(f"**{len(st.session_state.search_results)} sonuç bulundu:**")
+        for player in st.session_state.search_results:
+            # Oyuncu bilgilerini göster
+            st.subheader(f"{player[1]} {player[2]}")  # Ad ve Soyad
+            st.write(f"Pozisyon: {player[3]}")
+            st.write(f"Yaş: {player[4]}")
+            st.write(f"Uyruğu: {player[5]}")
+            st.write(f"Takım: {player[6] if player[6] else 'Takım bilgisi yok'}")
+
+            # İstatistikler butonu
+            if st.button(f"İstatistikler ({player[1]} {player[2]})", key=f"stats_button_{player[0]}"):
+                # İstatistiklerin gösterim durumunu tersine çevir
+                if player[0] in st.session_state.expanded_stats:
+                    st.session_state.expanded_stats[player[0]] = not st.session_state.expanded_stats[player[0]]
+                else:
+                    st.session_state.expanded_stats[player[0]] = True
+
+            # Eğer bu oyuncunun istatistikleri gösterilmek isteniyorsa
+            if player[0] in st.session_state.expanded_stats and st.session_state.expanded_stats[player[0]]:
+                statistics = get_player_statistics(player[0])  # İstatistikleri çek
+                if statistics:
+                    st.write(f"**{player[1]} {player[2]} İstatistikleri:**")
+                    for stat in statistics:
+                        st.write(f"Sezon: {stat[5]}")
+                        st.write(f"Goller: {stat[0]}, Asistler: {stat[1]}, Sarı Kartlar: {stat[2]}, Kırmızı Kartlar: {stat[3]}")
+                        st.write(f"Oynanan Dakika: {stat[4]}")
+                        st.write("---")
+                else:
+                    st.warning(f"{player[1]} {player[2]} için istatistik bulunamadı.")
+            st.write("---")
+    else:
+        st.warning("Hiçbir sonuç bulunamadı.")
 
 # Takım Arama Sayfası
 if st.session_state.page == "team_search":
@@ -445,5 +408,86 @@ if st.session_state.page == "team_search":
     else:
         st.session_state.team_search_results = []  # Arama sonuçları sayfa terk edildiğinde sıfırlanır
 
+if st.session_state.page == "gelen_transfer":
+    st.markdown(f'<h1>{st.session_state.selected_team_name} Gelen Transferler</h1>', unsafe_allow_html=True)
+    print("teamid : ", st.session_state.selected_team)
+    gelen_transfer = get_gelen_transfers_by_team(st.session_state.selected_team)
+    players = []
+    print ("Gelen :", gelen_transfer) 
+    for player in gelen_transfer:
+       
+        player_info = (get_player_information_by_player_id(player[1])+ [str(player[2]), str(player[3]), str(player[4]), str(player[5])])
+        players.append(player_info)
+   
+    if players:
+        for player in players:
+            # Oyuncu bilgilerini göster
+            st.subheader(f"{player[0][1]} {player[0][2]}")  # Ad ve Soyad
+            st.write(f"Pozisyon: {player[0][3]}")  # Pozisyon
+            st.write(f"Yaş: {player[0][4]}")  # Yaş
+            st.write(f"Uyruğu: {player[0][5]}")  # Uyruğu
+            st.write(f"Transfer Tarihi: {player[1]}")  
+            st.write(f"Transfer Fee: {player[2]}")
+            # Transfer from ve Transfer to'yu takım isimlerine çevir
+            from_team_name = get_team_name(player[3])  # from_team_id'yi takım adına çevir
+            to_team_name = get_team_name(player[4])  # to_team_id'yi takım adına çevir
+            st.write(f"Transfer from: {from_team_name}")
+            st.write(f"Transfer to: {to_team_name}")
+          
+            # İstatistikler butonu
+            if st.button(f"İstatistikler ({player[0][1]} {player[0][2]})", key=f"stats_{player[0][0]}"):
+                # Oyuncu istatistiklerini çek
+                statistics = get_player_statistics(player[0][0])  # player_id'yi kullanarak istatistikleri çek
+                if statistics:
+                    st.write(f"**{player[0][1]} {player[0][2]} İstatistikleri:**")
+                    for stat in statistics:
+                        st.write(f"Sezon: {stat[5]}")
+                        st.write(f"Goller: {stat[0]}, Asistler: {stat[1]}, Sarı Kartlar: {stat[2]}, Kırmızı Kartlar: {stat[3]}")
+                        st.write(f"Oynanan Dakika: {stat[4]}")
+                        st.write("---")
+                else:
+                    st.warning(f"{player[0][1]} {player[2]} için istatistik bulunamadı.")
+            st.write("---")
+    else:
+        st.warning("Bu takıma ait oyuncu bilgisi bulunamadı.")
+        
+if st.session_state.page == "giden_transfer":
+    st.markdown(f'<h1>{st.session_state.selected_team_name} Giden Transferler</h1>', unsafe_allow_html=True)
+    print("teamid : ", st.session_state.selected_team)
+    giden_transfer = get_giden_transfers_by_team(st.session_state.selected_team)
+    players = []
+    print ("giden :", giden_transfer) 
+    for player in giden_transfer:
+        print ("Player:", player) 
+        player_info = (get_player_information_by_player_id(player[1])+ [str(player[2]), str(player[3]), str(player[4]), str(player[5])])
+        players.append(player_info)
 
+    print ("Players:", players) 
+    if players:
+        for player in players:
+            # Oyuncu bilgilerini göster
+            st.subheader(f"{player[0][1]} {player[0][2]}")  # Ad ve Soyad
+            st.write(f"Pozisyon: {player[0][3]}")  # Pozisyon
+            st.write(f"Yaş: {player[0][4]}")  # Yaş
+            st.write(f"Uyruğu: {player[0][5]}")  # Uyruğu
+            st.write(f"Transfer Tarihi: {player[1]}")  
+            st.write(f"Transfer Fee: {player[2]}")
+            st.write(f"Transfer from: {player[3]}")
+            st.write(f"Transfer to: {player[4]}")
+            # İstatistikler butonu
+            if st.button(f"İstatistikler ({player[0][1]} {player[0][2]})", key=f"stats_{player[0][0]}"):
+                # Oyuncu istatistiklerini çek
+                statistics = get_player_statistics(player[0][0])  # player_id'yi kullanarak istatistikleri çek
+                if statistics:
+                    st.write(f"**{player[0][1]} {player[0][2]} İstatistikleri:**")
+                    for stat in statistics:
+                        st.write(f"Sezon: {stat[5]}")
+                        st.write(f"Goller: {stat[0]}, Asistler: {stat[1]}, Sarı Kartlar: {stat[2]}, Kırmızı Kartlar: {stat[3]}")
+                        st.write(f"Oynanan Dakika: {stat[4]}")
+                        st.write("---")
+                else:
+                    st.warning(f"{player[0][1]} {player[2]} için istatistik bulunamadı.")
+            st.write("---")
+    else:
+        st.warning("Bu takıma ait oyuncu bilgisi bulunamadı.")
 
